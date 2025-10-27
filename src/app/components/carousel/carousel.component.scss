@@ -1,0 +1,53 @@
+/*.carousel-control-prev,
+.carousel-control-next {
+  z-index: 2000 !important;
+}*/
+
+
+.carousel-container {
+  position: relative;
+
+  .carousel-inner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel-item {
+    display: none;
+    transition: opacity 1s ease-in-out;
+
+    &.active {
+      display: block;
+      opacity: 1;
+    }
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2000;
+    background: grey;
+    border: none;
+    width: 40px;  
+    height: 40px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 50%;
+
+    span {
+      filter: invert(1);
+    }
+  }
+
+  .carousel-control-prev {
+    left: 10px;
+  }
+
+  .carousel-control-next {
+    right: 10px;
+  }
+}
+
+

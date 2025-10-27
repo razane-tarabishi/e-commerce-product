@@ -1,0 +1,111 @@
+<nav class="navbar">
+  <div class="logo"><i class="fa-solid fa-cart-shopping"></i>E-Commerce</div>
+
+<!-- Nav links Desktop -->
+<ul class="nav-links">
+  <li *ngIf="auth.isLoggedIn()" class="dark-toggle" (click)="toggleDark()">
+  <i class="fa-solid" [ngClass]="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+  </li>
+  <li><a routerLink="/home" routerLinkActive="active"><i class="fa-solid fa-house-circle-exclamation"></i>Home</a></li>
+  <li *ngIf="auth.isLoggedIn() && !auth.isAdmin()"><a routerLink="/like" routerLinkActive="active"><i class="fa-solid fa-heart"></i>WishList</a></li>
+  <li *ngIf="auth.isAdmin() && auth.isLoggedIn()">
+  <a routerLink="/add-carousel" routerLinkActive="active">
+    <i class="fa-solid fa-image"></i> Add Carousel
+  </a>
+ </li>
+<li *ngIf="auth.isAdmin() && auth.isLoggedIn()">
+  <a routerLink="/orders" routerLinkActive="active">
+    <i class="fa-solid fa-box"></i> View Orders
+  </a>
+</li>
+
+  <li *ngIf="auth.isAdmin() && auth.isLoggedIn()">
+      <a routerLink="/add-card" routerLinkActive="active"><i class="fa-solid fa-plus"></i>Add Card</a>
+  </li>
+
+
+
+      <li class="dropdown" *ngIf="auth.isLoggedIn()">
+      <div class="dropdown-toggle" (click)="toggleDropdown()">
+        <span>{{ userEmail }}</span>   
+      </div>
+      <ul class="dropdown-menu" [class.show]="dropdownOpen">
+        <!--<li><a routerLink="/settings"><i class="fa-solid fa-gear"></i> Settings</a></li>-->
+     <li class="dropdown-submenu">
+      <a (click)="toggleDropdown()"><i class="fa-solid fa-gear"></i> Settings</a>
+      <ul class="submenu" [class.show]="dropdownOpen">
+        <li><a routerLink="/about" routerLinkActive="active"><i class="fa-solid fa-ban" (click)="closeDropdown()"></i>About</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active"><i class="fa-solid fa-id-badge" (click)="closeDropdown()"></i>Contact</a></li>
+      </ul>
+    </li>
+    <li><a (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </li>
+
+    <li *ngIf="!auth.isLoggedIn()">
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </li>
+</ul>
+
+
+  
+  <div class="menu-icon" (click)="toggleMenu()">
+    <i class="fas" [ngClass]="menuOpen ? 'fa-times' : 'fa-bars'"></i>
+  </div>
+</nav>
+
+<!-- Sidebar Mobile -->
+<div class="sidebar" [class.open]="menuOpen">
+  <div class="close-icon" (click)="closeMenu()">
+    <i class="fas fa-times"></i>
+  </div>
+  <ul>
+    <li *ngIf="auth.isLoggedIn()" class="dark-toggle" (click)="toggleDark()">
+    <i class="fa-solid" [ngClass]="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+    </li>
+    <li><a routerLink="/home" routerLinkActive="active" (click)="closeMenu()"><i class="fa-solid fa-house-circle-exclamation"></i>Home</a></li>
+    <li *ngIf="auth.isLoggedIn()"><a routerLink="/like" routerLinkActive="active" (click)="closeMenu()"><i class="fa-solid fa-heart"></i>WishList</a></li>
+    <li *ngIf="auth.isAdmin() && auth.isLoggedIn()">
+      <a routerLink="/add-carousel" routerLinkActive="active" (click)="closeMenu()">
+      <i class="fa-solid fa-image"></i> Add Carousel
+      </a>
+    </li>
+    <li *ngIf="auth.isAdmin() && auth.isLoggedIn()">
+    <a routerLink="/add-card" routerLinkActive="active" (click)="closeMenu()"><i class="fa-solid fa-plus"></i>Add Card</a>
+    </li>
+  </ul>
+    <ul>
+    <!--<li *ngIf="!auth.isLoggedIn()">
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </li>
+    <li *ngIf="auth.isLoggedIn()">
+      <a (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+    </li>-->
+    <li class="dropdown" *ngIf="auth.isLoggedIn()">
+      <div class="dropdown-toggle" (click)="toggleDropdown()">
+        <!--<i class="fa-solid fa-user"></i>-->
+        <span>{{ userEmail }}</span>
+        <!--<i class="fa-solid fa-caret-down"></i>-->
+      </div>
+      <ul class="dropdown-menu" [class.show]="dropdownOpen">
+      <!--<li><a routerLink="/settings"><i class="fa-solid fa-gear"></i> Settings</a></li>-->
+    <li class="dropdown-submenu">
+      <a><i class="fa-solid fa-gear"></i> Settings</a>
+      <ul class="submenu">
+        <li><a routerLink="/about" routerLinkActive="active" (click)="closeMenu()"><i class="fa-solid fa-ban"></i>About</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()"><i class="fa-solid fa-id-badge"></i>Contact</a></li>
+      </ul>
+    </li>
+      <li><a (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </li>
+    <li *ngIf="!auth.isLoggedIn()">
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+    </li>
+    
+  </ul>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" [class.show]="menuOpen" (click)="closeMenu()"></div>
+

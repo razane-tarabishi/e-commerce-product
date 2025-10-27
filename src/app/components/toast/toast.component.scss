@@ -1,0 +1,26 @@
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -300px;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: #4caf50;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.4s ease-in-out;
+  z-index: 9999; 
+   
+  &.show {
+    right: 20px;
+  }
+
+  &.error {
+    background: #e74c3c;
+  }
+  &.info{
+    background: #d1c630;
+  }
+}
+

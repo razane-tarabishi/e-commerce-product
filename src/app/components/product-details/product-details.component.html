@@ -1,0 +1,17 @@
+<div class="product-details" *ngIf="product">
+  <button class="back-btn" (click)="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+
+
+  <div class="details-card">
+    <img [src]="product.image" alt="{{ product.title }}" class="product-image">
+    <div class="product-info">
+      <h2>Title: {{ product.title }}</h2>
+      <p>Description: {{ product.description }}</p>
+      <span class="price">Price: {{ getPrice(product.price) }}</span>
+      <!-- Add to cart button -->
+      <button (click)="addToCart(product)" *ngIf="!isAdmin()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<app-toast #toast></app-toast>

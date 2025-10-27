@@ -1,0 +1,122 @@
+<div class="add-carousel-container">
+  <h2>Add Images to Carousel</h2>
+
+
+  <div class="image-preview" *ngIf="selectedImage">
+    <img [src]="selectedImage" alt="Preview">
+  </div>
+
+  <div class="file-control">
+
+    <input #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*"
+      aria-label="Choose image" />
+
+    <!-- Styled label acts as the visible button -->
+    <label for="fileInput" class="choose-btn">
+      <i class="fa-solid fa-image"></i>
+      Choose Image
+    </label>
+    <span class="hint">jpg, png, gif — max 5MB</span>
+
+    <button class="add-btn" (click)="addImage()" [disabled]="!selectedImage">Add Image</button>
+  </div>
+
+  <!-- List of images -->
+  <ul class="image-list">
+    <li *ngFor="let img of images; let i = index">
+    <img [src]="img" alt="carousel image" (click)="openModal(img, i)">
+    <!--<button (click)="removeImage(i)">Remove</button>(click)="openModal(img, i)"-->
+    </li>
+  </ul>
+</div>
+
+<!-- Modal -->
+<!--<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+
+    <div class="modal-img-container" (wheel)="onWheel($event)">
+      <img [src]="modalImage" [style.transform]="'scale(' + zoom + ')'" alt="carousel image">
+    </div>
+
+
+
+    <div class="zoom-controls">
+      <button (click)="zoomIn()">+</button>
+      <button (click)="zoomOut()">-</button>
+    </div>
+
+    <div class="actions">
+      <input id="replaceInput" type="file" accept="image/*" (change)="replaceImage($event)" hidden>
+      <label for="replaceInput" class="action-btn">Change Photo</label>
+      <button class="action-btn delete" (click)="openDeleteModal()">Delete Photo</button>
+    </div>
+  </div>
+</div>-->
+<div class="delete-modal" *ngIf="isDeleteModalOpen">
+  <div class="delete-modal-content">
+    <h3>Are you sure you want to delete this photo?</h3>
+    <div class="delete-actions">
+      <button class="confirm" (click)="confirmDelete()">Yes, Delete</button>
+      <button class="cancel" (click)="cancelDelete()">Cancel</button>
+    </div>
+  </div>
+</div> 
+
+<app-toast #toast></app-toast>
+
+
+<!-- Photo Viewer Modal -->
+<div class="photo-viewer-modal" *ngIf="isModalOpen" (click)="closeModal()">
+  <div class="photo-viewer-container" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="photo-viewer-header">
+      <div class="header-left">
+        <h5 class="modal-title">Carousel Image</h5>
+      </div>
+      <div class="photo-viewer-controls">
+        <button class="control-btn" (click)="zoomOut()" [disabled]="zoom <= 0.5" title="Zoom Out">
+          <i class="fas fa-minus"></i>
+        </button>
+        <span class="zoom-level">{{ (zoom * 100).toFixed(0) }}%</span>
+        <button class="control-btn" (click)="zoomIn()" [disabled]="zoom >= 3" title="Zoom In">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button class="control-btn" (click)="resetZoom()" title="Reset Zoom">
+          <i class="fas fa-undo"></i>
+        </button>
+        <button class="control-btn close-btn" (click)="closeModal()" title="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Image Content -->
+    <div class="photo-viewer-content"
+         (wheel)="onWheel($event)"
+         (mousedown)="startDrag($event)"
+         (mousemove)="drag($event)"
+         (mouseup)="stopDrag()"
+         (mouseleave)="stopDrag()">
+      <img *ngIf="modalImage"
+           [src]="modalImage"
+           class="viewer-image"
+           [style.transform]="getImageTransform()"
+           draggable="false">
+    </div>
+
+    <!-- Footer -->
+    <div class="photo-viewer-footer">
+      <button class="btn btn-outline-danger" (click)="openDeleteModal()">
+        <i class="fas fa-trash me-2"></i>
+        Delete
+      </button>
+  <input id="replaceInput" type="file" accept="image/*" (change)="replaceImage($event)" hidden>
+  <button class="btn btn-primary" (click)="triggerUpload()">
+    <i class="fas fa-camera me-2"></i>
+    Change
+  </button>
+    </div>
+  </div>
+</div>

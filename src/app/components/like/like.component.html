@@ -1,0 +1,28 @@
+<div class="liked-container"  [ngClass]="{'dark-mode': darkMode}">
+  <h2>Liked Products</h2>
+  <div class="card" *ngFor="let card of paginatedLikedCards , let i = index">
+    <img *ngIf="card.image" [src]="card.image" alt="{{ card.title }}">
+    <h3>{{ card.title }}</h3>
+    <p (click)="$event.stopPropagation()">
+    {{ isDescriptionExpanded[i] ? card.description : (card.description | slice:0:40) + (card.description.length > 40 ? '.....' : '') }}
+    <span *ngIf="card.description.length > 40" class="toggle-desc" (click)="toggleDescription(i)">
+    {{ isDescriptionExpanded[i] ? 'less' : 'more' }}
+    </span>
+    </p>
+    <span class="price">{{ getPrice(card.price) }}</span>
+    
+    <div class="card-actions">
+      <i class="fas fa-heart" (click)="removeLike(card)"></i>
+    </div>
+  </div>
+
+  <p *ngIf="likedCards.length === 0">No liked products yet.</p>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Prev</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
+

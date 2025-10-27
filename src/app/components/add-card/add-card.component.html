@@ -1,0 +1,42 @@
+<div class="card-form-container">
+  <h2>Add New Card</h2>
+  <form (ngSubmit)="onSubmit()" #cardForm="ngForm">
+
+    <div class="form-group">
+      <input type="text" [(ngModel)]="title" name="title" required placeholder=" " />
+      <label>Title</label>
+    </div>
+
+    <div class="form-group">
+      <textarea [(ngModel)]="description" name="description" required placeholder=" "></textarea>
+      <label>Description</label>
+    </div>
+
+    <div class="form-group">
+      <input type="number" [(ngModel)]="price" name="price" required placeholder=" " />
+      <label>Price</label>
+    </div>
+
+    <!--<input type="file" (change)="onImageChange($event)" accept="image/*">
+
+
+   <div *ngIf="imageData" class="image-preview">
+  <img [src]="imageData" alt="Preview" />
+   </div>-->
+    <div class="form-actions">
+      <div class="file-input">
+        <label class="file-label">
+          <span>{{ imageData ? 'Change Image' : 'Choose Image' }}</span>
+          <input type="file" id="fileInput" (change)="onImageChange($event)" accept="image/*" />
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="imageData" class="image-preview">
+      <img [src]="imageData" alt="Preview" />
+    </div>
+    <button type="submit">Add Card</button><!--[disabled]="!cardForm.form.valid"-->
+  </form>
+</div>
+
+<app-toast #toast></app-toast>

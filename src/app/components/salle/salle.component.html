@@ -1,0 +1,134 @@
+<div class="cart-container" [ngClass]="{'dark-mode': darkMode}">
+  <h2><i class="fa-solid fa-cart-shopping"></i>My Cart</h2>
+
+  <div *ngIf="cart.length > 0; else emptyCart">
+    <div class="cart-item" *ngFor="let item of paginatedCart; let i = index">
+      <img [src]="item.image" alt="{{ item.title }}">
+
+      <div class="cart-details">
+        <h3>{{ item.title }}</h3>
+        <p class="price">{{ getPrice(item.price) }}</p>
+        <div class="quantity-controls">
+          <button type="button" (click)="decreaseQuantity(i)">-</button>
+          <span>{{ item.quantity || 1 }}</span>
+          <button type="button" (click)="increaseQuantity(i)">+</button>
+        </div>
+      </div>
+
+      <div class="cart-actions">
+        <button class="remove-btn" (click)="openDeleteModal(i)">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h3>Total: {{ getPrice(getTotal()) }}</h3>
+      <div class="button-group">
+        <button class="home-btn" (click)="goToHome()">Go to Home</button>
+        <button class="checkout-btn" (click)="proceedToCheckout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <p class="empty-text">Your cart is empty</p>
+  </ng-template>
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Prev</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showModal"  [ngClass]="{'dark-mode': darkMode}">
+  <div class="modal-content">
+    <h3>Are you sure you want to remove this product?</h3>
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+      <button class="confirm-btn" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!--checkout modal-->
+<div class="checkout-modal" *ngIf="showCheckoutModal" [ngClass]="{'dark-mode': darkMode}">
+  <div class="modal-content">
+    <h3>Enter Your Information</h3>
+    <form #checkoutForm="ngForm" (ngSubmit)="confirmCheckout(checkoutForm)">
+      
+      <!-- Full Name -->
+      <div class="form-group">
+        <label>Full Name</label>
+        <input 
+          type="text" 
+          name="name" 
+          [(ngModel)]="checkoutData.name" 
+          required 
+          placeholder="Enter your full name"
+        />
+      </div>
+
+      <!-- Country + Phone -->
+      <div class="form-group phone-group">
+        <label>Phone</label>
+        <div class="phone-input-wrapper">
+          <!-- Country Dropdown -->
+          <select 
+            name="country" 
+            [(ngModel)]="checkoutData.country"
+            (change)="onCountryChange()"
+            required
+          >
+            <option value="" >Select Country</option>
+            <option *ngFor="let c of countries" [value]="c.name">{{ c.name }} ({{ c.code }})</option>
+          </select>
+
+          <!-- Phone Input with Country Code -->
+          <div class="phone-field">
+            <span class="country-code" *ngIf="selectedCountry">{{ selectedCountry.code }}</span>
+            <input 
+              type="text"
+              name="phone"
+              [(ngModel)]="checkoutData.phone"
+              [disabled]="!checkoutData.country"
+              [placeholder]="checkoutData.country ? 'Enter phone number' : 'Select country to open the input'"
+              required
+            />
+          </div>
+        </div>
+
+        <small *ngIf="checkoutData.phone && !isPhoneValid()" style="color: red;">
+          Invalid phone number for {{ checkoutData.country }}.
+        </small>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label>Address</label>
+        <textarea 
+          name="address" 
+          [(ngModel)]="checkoutData.address" 
+          required 
+          placeholder="Enter your address"
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions">
+        <button type="button" (click)="closeCheckoutModal()">Cancel</button>
+        <button type="submit">Confirm Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<app-toast #toast></app-toast> 
+
+

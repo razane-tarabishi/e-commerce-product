@@ -36,10 +36,18 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
+      "styles": [
+         "node_modules/bootstrap/dist/css/bootstrap.min.css",
+         "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+         "node_modules/primeng/resources/primeng.min.css",
+         "node_modules/primeicons/primeicons.css",
+         "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+         "src/styles.scss"
+        ],
+      "scripts": [
+        "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+         ]
+
           },
           "configurations": {
             "production": {
@@ -97,12 +105,18 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "eb485923-1df6-482f-805e-034824370918"
   }
 }

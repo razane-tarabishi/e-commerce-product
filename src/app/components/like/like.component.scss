@@ -1,0 +1,172 @@
+.liked-container {
+  /*max-width: 1200px;
+  margin: 40px auto;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;*/
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+  justify-content: center;
+}
+
+.liked-container h2 {
+  font-size: 28px;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 700;
+  color: grey;
+}
+
+
+.liked-container .card {
+  /*background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;*/
+  background: #fff0f6;
+  border: 2px solid #ffb6c1;
+  border-radius: 16px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  transition: transform 0.3s;
+  position: relative;
+  z-index: 2000;
+}
+
+.liked-container .card:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+}
+
+.liked-container .card img {
+  max-width: 100%;
+  /*object-fit: cover;*/
+  border-radius: 12px;
+  margin-bottom: 10px;
+  height: 180px;      
+}
+
+.card-actions {
+  position: absolute;
+  z-index: 200;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-actions i {
+  font-size: 18px;
+  color: palevioletred;
+}
+
+.card-actions:hover {
+  transform: scale(1.15);
+  background: #ffeaea;
+}
+
+.liked-container h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: palevioletred;
+  margin: 15px;
+}
+
+.liked-container p {
+  font-size: 16px;
+  color: grey;
+  margin: 0 15px 15px;
+  min-height: 40px;
+}
+
+.liked-container .price {
+  display: block;
+  font-size: 17px;
+  font-weight: bold;
+  color: palevioletred;
+  margin: 0 15px 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.pagination span{
+  color: palevioletred;
+  font-weight: bold;
+  font-size: 16px;
+}
+.pagination button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #ffb6c1;
+  color: white;
+  font-weight: bold;
+  position: relative;
+  z-index: 2000;
+
+}
+
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+
+.toggle-desc {
+  color: #d63384;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.toggle-desc:hover {
+  text-decoration: underline;
+}
+
+
+.liked-container.dark-mode {
+
+  .card {
+    background: #444;
+    border: 1px solid #444;
+
+
+
+    p {
+      color: #ccc;
+    }
+
+    .card-actions {
+      background: #333;
+    }
+
+    &:hover {
+      box-shadow: 0 8px 18px rgba(255, 122, 163, 0.3);
+      transform: translateY(-5px);
+    }
+  }
+}
+
+
+
+
+
+
+  

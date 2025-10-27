@@ -1,0 +1,146 @@
+<app-carousel></app-carousel>
+<div class="filter-wrapper">
+  <div class="filter-container">
+    <label for="priceFilter">Filter by Price:</label>
+    <select id="priceFilter" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+      <option value="all">All</option>
+      <option value="low">Low (0 - 50$)</option>
+      <option value="mid">Medium (51 - 100$)</option>
+      <option value="high">High (100$+)</option>
+    </select>
+  </div>
+
+  <div class="currency-selector">
+  <label for="currency">Currency:</label>
+  <select id="currency" [(ngModel)]="selectedCurrency" (change)="changeCurrency()">
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    <option value="LBP">LBP</option>
+  </select>
+</div>
+</div>
+
+
+
+<div class="cart-icon" (click)="goToCart()" *ngIf="!isAdmin()">
+  <i class="fas fa-shopping-cart"></i>
+</div>
+
+<div class="cards-container">
+  <div class="card" *ngFor="let card of paginatedCards; let i = index" (click)="openProductDetails(card)">
+
+  <!-- Edit & Delete icons (visible only if admin) -->
+  <div class="admin-actions" *ngIf="isAdmin()" (click)="$event.stopPropagation()">
+    <i class="fas fa-edit" (click)="openEditModal(card, i)"></i>
+    <i class="fas fa-trash" (click)="openDeleteModal(i)"></i>
+  </div>
+
+
+    <img *ngIf="card.image" [src]="card.image" alt="{{ card.title }}">
+    <h3>{{ card.title }}</h3>
+    <p (click)="$event.stopPropagation()">
+    {{ isDescriptionExpanded[i] ? card.description : (card.description | slice:0:40) + (card.description.length > 40 ? '.....' : '') }}
+    <span *ngIf="card.description.length > 40" class="toggle-desc" (click)="toggleDescription(i)">
+    {{ isDescriptionExpanded[i] ? 'less' : 'more' }}
+    </span>
+    </p>
+    <!--<p>{{ card.description }}</p>
+    <span class="price">${{ card.price }}</span>-->
+    <span class="price">{{ getPrice(card.price) }}</span>
+    <div class="card-actions" (click)="$event.stopPropagation()" *ngIf="!isAdmin()">
+      <i 
+       class="fa" 
+      [ngClass]="card.liked ? 'fas fa-heart' : 'far fa-heart'"
+      (click)="toggleLike(card)">
+     </i>
+     <!-- quantity controls -->
+      <div class="quantity-controls" >
+        <button (click)="decreaseQuantity(card)">-</button>
+        <span>{{ card.selectedQuantity || 1 }}</span>
+        <button (click)="increaseQuantity(card)">+</button>
+      </div>  
+     <i class="fa fa-shopping-cart" (click)="addToCart(card)"></i>
+    </div>
+  </div>
+  <p *ngIf="cards.length === 0">No cards yet. Add some!</p>
+</div>
+
+
+<div class="pagination mb-3 mt-3">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Prev</button>
+  
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</div>
+
+
+<!-- Login Modal -->
+<div class="login-modal" *ngIf="showLoginModal">
+  <div class="modal-content">
+    <h3>You need to log in first</h3>
+    <div class="modal-actions">
+      <button (click)="login()">Go to Login</button>
+      <button (click)="closeLoginModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Edit Modal -->
+<!--<div class="edit-modal" *ngIf="showEditModal" [ngClass]="{'dark-mode': darkMode}">
+  <div class="modal-content">
+    <h3>Edit Product</h3>
+    <input type="text" [(ngModel)]="editCard.title" placeholder="Title">
+    <textarea [(ngModel)]="editCard.description" placeholder="Description"></textarea>
+    <input type="number" [(ngModel)]="editCard.price" placeholder="Price">
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeEditModal()">Cancel</button>
+      <button class="confirm-btn" (click)="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>-->
+
+
+<!-- Edit Modal -->
+<div class="edit-modal" *ngIf="showEditModal" [ngClass]="{'dark-mode': darkMode}">
+  <div class="modal-content">
+    <h3>Edit Product</h3>
+
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input id="title" type="text" [(ngModel)]="editCard.title" placeholder="Enter title">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" [(ngModel)]="editCard.description" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input id="price" type="number" [(ngModel)]="editCard.price" placeholder="Enter price">
+    </div>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeEditModal()">Cancel</button>
+      <button class="confirm-btn" (click)="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showModal"  [ngClass]="{'dark-mode': darkMode}">
+  <div class="modal-content">
+    <h3>Are you sure you want to remove this product?</h3>
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+      <button class="confirm-btn" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<app-toast #toast></app-toast>

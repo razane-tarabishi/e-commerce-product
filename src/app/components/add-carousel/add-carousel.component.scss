@@ -1,0 +1,646 @@
+.add-carousel-container {
+  background: #fff0f6; 
+  border: 2px solid #ffb6c1;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 900px;
+  margin: 50px auto;
+  box-shadow: 0 8px 16px rgba(255, 182, 193, 0.3);
+  text-align: center;
+  position: relative;
+  z-index: 2000;
+
+  h2 {
+    color: palevioletred;
+    margin-bottom: 20px;
+  }
+
+  input {
+    padding: 12px;
+    border: 1px solid #ffb6c1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 10px;
+    width: 100%;
+    transition: 0.3s;
+
+    &:focus {
+      border-color: #d63384;
+      box-shadow: 0 0 6px rgba(214, 51, 132, 0.4);
+    }
+  }
+
+  button {
+    background: linear-gradient(135deg, palevioletred, #e24ad5);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 20px;
+
+    &:hover {
+      background: #b02a6c;
+    }
+
+    &:disabled {
+      background: #f8a5c2;
+      cursor: not-allowed;
+    }
+  }
+
+  .image-preview {
+    margin-bottom: 15px;
+
+    img {
+      max-width: 100%;
+      max-height: 120px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      object-fit: cover;
+    }
+  }
+
+  .image-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid #ffb6c1;
+      border-radius: 8px;
+      padding: 5px;
+      background: #fff;
+      width: 150px;
+
+      img {
+        max-width: 100%;
+        max-height: 80px;
+        border-radius: 4px;
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+      button {
+        background: #ff6fa3;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+          background: #d63384;
+        }
+      }
+    }
+  }
+}
+
+
+.file-control input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+.file-control {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+
+.choose-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, palevioletred, #e24ad5);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+  transition: transform .12s ease, box-shadow .12s ease;
+  text-decoration: none;
+}
+
+.choose-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+.choose-btn:active { transform: translateY(0); }
+
+
+.hint {
+  font-size: 12px;
+  color: #7a2a4a;
+  opacity: 0.9;
+}
+
+
+.add-btn {
+  margin-top: 6px;
+  background: #ff6fa3;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.add-btn:disabled {
+  background: #f8a5c2;
+  cursor: not-allowed;
+}
+
+
+.image-preview img { max-height: 120px; border-radius: 8px; object-fit: cover; }
+.image-list li img { max-height: 80px; object-fit: cover; }
+
+
+
+.image-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin-top: 20px;
+
+  li {
+    background: #fff;
+    border: 1px solid #ffb6c1;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    text-align: center;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}
+
+.delete-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(3px);
+}
+
+.delete-modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 14px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease;
+
+  h3 {
+    margin-bottom: 20px;
+    color: #d63384;
+    font-size: 20px;
+  }
+}
+
+.delete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+
+  button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .confirm {
+    background: linear-gradient(135deg, #ff6b81, #e74c3c);
+    color: white;
+    &:hover { background: linear-gradient(135deg, #c0392b, #96281b); }
+  }
+
+  .cancel {
+    background: #eee;
+    color: #333;
+    &:hover { background: #ddd; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+// =============================================================================
+// MODAL Z-INDEX MANAGEMENT
+// =============================================================================
+
+// Photo viewer modal base z-index
+.photo-viewer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2); 
+  backdrop-filter: blur(1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+// Delete confirmation modal - ensure it appears above photo viewer
+#deletePhotoModal {
+  z-index: 10050 !important;
+  
+  // Ensure the modal dialog itself is also above
+  .modal-dialog {
+    z-index: 10051 !important;
+  }
+}
+
+// Ensure modal backdrop appears above photo viewer but below the modal
+.modal-backdrop.show {
+  z-index: 10040 !important;
+}
+
+// Global override for any modal that needs to appear above photo viewer
+.modal.show {
+  z-index: 10050 !important;
+}
+
+// Additional specificity for when both modals are open
+.photo-viewer-modal + .modal-backdrop,
+.modal-backdrop:last-of-type {
+  z-index: 10040 !important;
+}
+
+.photo-viewer-modal ~ #deletePhotoModal {
+  z-index: 10050 !important;
+}
+
+// Ensure any Bootstrap modal that appears while photo viewer is open gets higher z-index
+.photo-viewer-modal ~ .modal {
+  z-index: 10050 !important;
+}
+
+// =============================================================================
+// PHOTO VIEWER COMPONENTS
+// =============================================================================
+
+.photo-viewer-container {
+  background: white;
+  border-radius: 16px;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.photo-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  
+  .header-left {
+    .modal-title {
+      margin: 0 0 4px 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: palevioletred;
+    }
+    
+    .image-details {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+  }
+  
+  .photo-viewer-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .control-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #6b7280;
+      
+      &:hover:not(:disabled) {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+        color: #374151;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      &.close-btn {
+        color: #ef4444;
+        
+        &:hover {
+          background: #fef2f2;
+          border-color: #fca5a5;
+          color: #dc2626;
+        }
+      }
+    }
+    
+    .zoom-level {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #6b7280;
+      margin: 0 8px;
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+}
+
+.photo-viewer-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  /*min-height: 450px;*/
+  max-height: 65vh;
+  background: white;
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+  }
+  
+  .viewer-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.photo-viewer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  gap: 20px;
+  
+  .btn {
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    i {
+      font-size: 1rem;
+    }
+    
+    &.btn-outline-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      border: 2px solid rgba(239, 68, 68, 0.2);
+      
+      &:hover {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: rgba(239, 68, 68, 0.3);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+      }
+    }
+    
+    &.btn-primary {
+      background: linear-gradient(135deg, palevioletred, #e24ad5);
+      color: white;
+      
+      &:hover {
+       background: linear-gradient(135deg, palevioletred, #9b2291);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(197, 117, 184, 0.705);
+      }
+    }
+  }
+}
+
+/* Dark mode */
+:host-context(body.dark-mode) {
+  .add-carousel-container {
+    background: #1f1f1f;
+    border: 2px solid #444;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+
+    h2 { color: #f0a1c2; }
+
+    input {
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #f0f0f0;
+    }
+
+    button {
+      background: linear-gradient(135deg, #d63384, #e24ad5);
+      color: #fff;
+
+      &:disabled { background: #555; }
+    }
+
+    .image-list li {
+      background: #2a2a2a;
+      border: 1px solid #555;
+
+      button { background: #d63384; }
+    }
+  }
+}
+
+:host-context(body.dark-mode) {
+  /* Modal Image */
+  .modal-content {
+    background: #2a2a2a;
+    color: #f0f0f0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+
+    .close { color: #ff77a9; }
+    .modal-img-container {
+      background: #1f1f1f;
+    }
+
+    .zoom-controls button {
+      background: linear-gradient(135deg, #d63384, #b02a6c);
+      box-shadow: 0 4px 12px rgba(214, 51, 132, 0.5);
+      &:hover {
+        background: linear-gradient(135deg, #b02a6c, #96281b);
+      }
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, #d63384, #b02a6c);
+      &:hover {
+        background: linear-gradient(135deg, #b02a6c, #96281b);
+      }
+    }
+
+    .action-btn.delete {
+      background: linear-gradient(135deg, #e74c3c, #96281b);
+      &:hover { background: linear-gradient(135deg, #96281b, #6e1d1d); }
+    }
+  }
+
+  /* Delete Modal */
+  .delete-modal-content {
+    background: #2a2a2a;
+    color: #f0f0f0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+
+    h3 { color: #ff77a9; }
+
+    .delete-actions {
+      .confirm {
+        background: linear-gradient(135deg, #e74c3c, #96281b);
+        &:hover { background: linear-gradient(135deg, #96281b, #6e1d1d); }
+      }
+
+      .cancel {
+        background: #444;
+        color: #f0f0f0;
+        &:hover { background: #555; }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+:host-context(body.dark-mode) {
+  .photo-viewer-container {
+    background: #1f1f1f;
+    color: #f0f0f0;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+  }
+
+  .photo-viewer-header {
+    background: #2a2a2a;
+    border-bottom: 1px solid #444;
+
+    .modal-title {
+      color: #f8a1c2;
+    }
+
+    .image-details {
+      color: #bbb;
+    }
+
+    .control-btn {
+      background: #2a2a2a;
+      border: 1px solid #555;
+      color: #ddd;
+
+      &:hover:not(:disabled) {
+        background: #3a3a3a;
+        border-color: #777;
+        color: #fff;
+      }
+
+      &.close-btn {
+        color: #ff6b6b;
+        &:hover {
+          background: #3a1f1f;
+          border-color: #ff6b6b;
+        }
+      }
+    }
+
+    .zoom-level {
+      color: #ccc;
+    }
+  }
+
+  .photo-viewer-content {
+    background: #1a1a1a;
+  }
+
+  .photo-viewer-footer {
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    border-top: 1px solid #333;
+
+    .btn-outline-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ff6b6b;
+      border: 2px solid rgba(239, 68, 68, 0.3);
+
+      &:hover {
+        background: rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.5);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+      }
+    }
+  }
+}
