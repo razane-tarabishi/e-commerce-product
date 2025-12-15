@@ -34,6 +34,7 @@ export class AddCardComponent implements OnInit{
   }
 
   onSubmit() {
+    console.log('')
     const newCard = {
       id: Date.now(),
       title: this.title,
